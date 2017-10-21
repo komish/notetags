@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+_nt()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local prev=${COMP_WORDS[COMP_CWORD-1]}
+	
+  local opts="list search showconfig genconfig"
+
+  COMPREPLY=( $( compgen -W "${opts}" -- $cur) )
+  
+  case ${prev} in
+    showconfig|genconfig|list)
+    COMPREPLY=( $( compgen -W "-h --help" -- $cur) )
+    return 0
+    ;;
+    search)
+    unset COMPREPLY
+    return 0
+    ;;
+  esac
+
+}
+
+complete -F _nt nt
+
